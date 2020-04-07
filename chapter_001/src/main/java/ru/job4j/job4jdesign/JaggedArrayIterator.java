@@ -1,6 +1,7 @@
 package ru.job4j.job4jdesign;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class JaggedArrayIterator implements Iterator {
 
@@ -17,6 +18,9 @@ public class JaggedArrayIterator implements Iterator {
     }
 
     public Object next() {
+        if (!hasNext()) {
+            throw new NoSuchElementException();
+        }
         Object result =  array[row][col++];
         if (array[row].length == col) {
             row++;
