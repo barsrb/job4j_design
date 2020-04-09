@@ -24,10 +24,7 @@ public class DynamicArrayIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-        if (expectedModCount != elements.getModCount()) {
-            throw new ConcurrentModificationException();
-        }
-        if (hasNext()) {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
         return elements.get(index++);
