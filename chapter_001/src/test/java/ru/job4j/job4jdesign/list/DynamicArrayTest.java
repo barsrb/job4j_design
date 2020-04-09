@@ -123,4 +123,14 @@ public class DynamicArrayTest {
         it.hasNext();
     }
 
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void getFromIndexLessZegoGetException() {
+        dynamicArray.get(-1);
+    }
+
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void getFromIndexMoreThenItemsCountGetException() {
+        dynamicArray.get(10);
+    }
+
 }

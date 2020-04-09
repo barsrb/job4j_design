@@ -27,8 +27,11 @@ public class DynamicArray<E> implements Iterable<E> {
         elements = Arrays.copyOf(elements, newArraySize);
     }
 
-    public E get(int index) {
-        return (E) elements[index];
+    public E get(int position) {
+        if (position < 0 || position >= index) {
+            throw new IndexOutOfBoundsException();
+        }
+        return (E) elements[position];
     }
 
     @Override
