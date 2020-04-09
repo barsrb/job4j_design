@@ -26,7 +26,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
     }
 
     private Node<E> getNode(int index) {
-        if (index >= size) {
+        if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException();
         }
 

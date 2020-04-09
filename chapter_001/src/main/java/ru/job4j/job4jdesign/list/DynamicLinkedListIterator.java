@@ -25,9 +25,6 @@ public class DynamicLinkedListIterator<E> implements Iterator<E> {
 
     @Override
     public E next() {
-        if (expectedModCount != elements.getModCount()) {
-            throw new ConcurrentModificationException();
-        }
         if (!hasNext()) {
             throw new NoSuchElementException();
         }

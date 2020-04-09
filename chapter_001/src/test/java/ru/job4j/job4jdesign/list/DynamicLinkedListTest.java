@@ -109,4 +109,14 @@ public class DynamicLinkedListTest {
         it.hasNext();
     }
 
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void getFromIndexLessZegoGetException() {
+        dynamicList.get(-1);
+    }
+
+    @Test (expected = IndexOutOfBoundsException.class)
+    public void getFromIndexMoreThenItemsCountGetException() {
+        dynamicList.get(10);
+    }
+
 }
