@@ -1,6 +1,7 @@
 package ru.job4j.job4jdesign.list;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class DynamicLinkedList<E> implements Iterable<E> {
 
@@ -20,6 +21,11 @@ public class DynamicLinkedList<E> implements Iterable<E> {
     }
 
     public E get(int index) {
+        Node<E> node = getNode(index);
+        return node.data;
+    }
+
+    private Node<E> getNode(int index) {
         if (index >= size) {
             throw new IndexOutOfBoundsException();
         }
@@ -28,7 +34,7 @@ public class DynamicLinkedList<E> implements Iterable<E> {
         for (int i = 0; i < index; i++) {
             pointer = pointer.next;
         }
-        return pointer.data;
+        return pointer;
     }
 
     @Override
@@ -48,6 +54,18 @@ public class DynamicLinkedList<E> implements Iterable<E> {
     public static class Node<E> {
         public E data;
         public Node<E> next;
+    }
+
+    public void deleteLast() {
+        if (size == 0) {
+            throw new NoSuchElementException();
+        }
+        if (size == 1) {
+            first = new Node<>();
+        } else {
+            getNode(size - 2).next = null;
+        }
+        size--;
     }
 
 }
