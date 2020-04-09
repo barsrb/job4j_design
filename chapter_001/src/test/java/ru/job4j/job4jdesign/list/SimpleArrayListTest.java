@@ -3,6 +3,8 @@ package ru.job4j.job4jdesign.list;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
 
@@ -41,6 +43,12 @@ public class SimpleArrayListTest {
         list.delete();
         list.delete();
         assertThat(list.get(0), is(1));
+    }
+
+    @Test (expected = NoSuchElementException.class)
+    public void deleteFromEmptyList() {
+        list = new SimpleArrayList<>();
+        list.delete();
     }
 
 }
