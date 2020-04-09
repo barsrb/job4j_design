@@ -1,7 +1,6 @@
 package ru.job4j.job4jdesign.generic;
 
 import java.util.Iterator;
-import java.util.NoSuchElementException;
 
 public class SimpleArray<T> implements Iterable<T> {
 
@@ -29,16 +28,12 @@ public class SimpleArray<T> implements Iterable<T> {
             throw new IndexOutOfBoundsException();
         }
 
-        if (position > index + 1) {
-            throw new NoSuchElementException();
-        }
+        checkForPositionInBounds(position);
         elements[position] = model;
     }
 
     public void remove(int position) {
-        if (position >= index) {
-            throw new NoSuchElementException();
-        }
+        checkForPositionInBounds(position);
         System.arraycopy(elements, position + 1, elements, position, index - position);
         elements[--index] = null;
     }
@@ -48,10 +43,14 @@ public class SimpleArray<T> implements Iterable<T> {
             throw new IndexOutOfBoundsException();
         }
 
-        if (position > index) {
-            throw new NoSuchElementException();
-        }
+        checkForPositionInBounds(position);
         return (T) elements[position];
+    }
+
+    private void checkForPositionInBounds(int position) {
+        if (position >= this.index) {
+            throw new IndexOutOfBoundsException();
+        }
     }
 
     public int length() {

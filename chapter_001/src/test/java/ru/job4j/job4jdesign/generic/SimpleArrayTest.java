@@ -56,7 +56,7 @@ public class SimpleArrayTest {
         simpleArray.add(2);
     }
 
-    @Test (expected = NoSuchElementException.class)
+    @Test (expected = IndexOutOfBoundsException.class)
     public void setInWrongPosition() {
         simpleArray.remove(3);
         simpleArray.remove(2);
@@ -69,7 +69,7 @@ public class SimpleArrayTest {
         simpleArray.set(10, 1);
     }
 
-    @Test (expected = NoSuchElementException.class)
+    @Test (expected = IndexOutOfBoundsException.class)
     public void removeFromWrongPosition() {
         simpleArray.remove(5);
     }
@@ -79,7 +79,7 @@ public class SimpleArrayTest {
         simpleArray.get(10);
     }
 
-    @Test (expected = NoSuchElementException.class)
+    @Test (expected = IndexOutOfBoundsException.class)
     public void getFromWrongPosition() {
         simpleArray.remove(3);
         simpleArray.remove(2);
