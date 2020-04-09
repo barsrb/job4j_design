@@ -28,9 +28,8 @@ public class DynamicArrayIterator<E> implements Iterator<E> {
             throw new ConcurrentModificationException();
         }
         if (hasNext()) {
-            return elements.get(index++);
-        } else {
             throw new NoSuchElementException();
         }
+        return elements.get(index++);
     }
 }

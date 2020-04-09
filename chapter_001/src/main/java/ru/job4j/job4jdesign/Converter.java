@@ -35,11 +35,10 @@ public class Converter {
             public Integer next() {
                 if (!hasNext()) {
                     throw new NoSuchElementException();
-                } else {
-                    Integer result = element;
-                    element = null;
-                    return result;
                 }
+                Integer result = element;
+                element = null;
+                return result;
             }
         };
 

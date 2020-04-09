@@ -18,10 +18,9 @@ public class SimpleArrayIterator<T> implements Iterator<T> {
 
     @Override
     public T next() {
-        if (hasNext()) {
-            return array.get(index++);
-        } else {
+        if (!hasNext()) {
             throw new NoSuchElementException();
         }
+        return array.get(index++);
     }
 }

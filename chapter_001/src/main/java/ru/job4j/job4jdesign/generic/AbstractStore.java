@@ -46,10 +46,9 @@ public abstract class AbstractStore<T extends Base> implements Store<T> {
     @Override
     public T findById(String id) {
         int pos = findPositionById(id);
-        if (pos > -1) {
-            return storage.get(pos);
-        } else {
+        if (pos < 0) {
             throw new NoSuchElementException();
         }
+        return storage.get(pos);
     }
 }
