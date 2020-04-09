@@ -46,4 +46,13 @@ public class DynamicArray<E> implements Iterable<E> {
     public int getSize() {
         return index;
     }
+
+    public boolean contains(E value) {
+        for (Object item : elements) {
+            if (value.equals(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
