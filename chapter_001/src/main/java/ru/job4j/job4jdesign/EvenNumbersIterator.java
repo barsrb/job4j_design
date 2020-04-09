@@ -3,7 +3,7 @@ package ru.job4j.job4jdesign;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
-public class EvenNumbersIterator implements Iterator {
+public class EvenNumbersIterator implements Iterator<Integer> {
     private int[] array;
     private int index = 0;
 
@@ -29,7 +29,7 @@ public class EvenNumbersIterator implements Iterator {
     }
 
     @Override
-    public Object next() {
+    public Integer next() {
         int pos = getNextEven();
         if (pos < 0) {
             throw new NoSuchElementException();

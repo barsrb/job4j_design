@@ -11,7 +11,7 @@ import static org.hamcrest.Matchers.is;
 
 public class EvenNumbersIteratorTest {
 
-    private Iterator it;
+    private Iterator<Integer> it;
 
     @Before
     public void setUp() {
