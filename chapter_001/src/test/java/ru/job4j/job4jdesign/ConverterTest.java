@@ -7,6 +7,7 @@ import java.util.*;
 
 import static org.hamcrest.core.Is.is;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertFalse;
 
 public class ConverterTest {
     Iterator<Integer> it;
@@ -102,6 +103,22 @@ public class ConverterTest {
         assertThat(it.next(), is(1));
         assertThat(it.next(), is(2));
         assertThat(it.next(), is(3));
+        it.next();
+    }
+
+    @Test
+    public void ifIteratorHasNoElementsHasNextIsFalse() {
+        Iterator<Iterator<Integer>> its = Collections.emptyIterator();
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
+        assertFalse(it.hasNext());
+    }
+
+    @Test (expected = NoSuchElementException.class)
+    public void ifIteratorHasNoElementsHasNextThrowsException() {
+        Iterator<Iterator<Integer>> its = Collections.emptyIterator();
+        Converter iteratorOfIterators = new Converter();
+        it = iteratorOfIterators.convert(its);
         it.next();
     }
 
