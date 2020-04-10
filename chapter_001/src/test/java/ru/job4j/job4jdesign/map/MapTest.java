@@ -16,6 +16,7 @@ public class MapTest {
         map.put(user2, "user2");
         System.out.println(user1.hashCode());
         System.out.println(user2.hashCode());
+        System.out.println(user2.equals(user1));
         System.out.println(map);
     }
 
