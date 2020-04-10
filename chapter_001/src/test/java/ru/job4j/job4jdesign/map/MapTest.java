@@ -14,6 +14,8 @@ public class MapTest {
         User user2 = new User("Ivan", 1, null);
         map.put(user1, "user1");
         map.put(user2, "user2");
+        System.out.println(user1.hashCode());
+        System.out.println(user2.hashCode());
         System.out.println(map);
     }
 
