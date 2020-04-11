@@ -16,17 +16,17 @@ public class EvenNumbersIterator implements Iterator<Integer> {
         if (index < 0 || array.length <= index) {
             return false;
         }
-        index = getNextEven();
-        return index >= 0;
-    }
 
-    private int getNextEven() {
+        int next = -1;
+
         for (int pos = index; pos < array.length; pos++) {
             if (array[pos] % 2 == 0) {
-                return pos;
+                next = pos;
+                break;
             }
         }
-        return -1;
+        index = next;
+        return index >= 0;
     }
 
     @Override

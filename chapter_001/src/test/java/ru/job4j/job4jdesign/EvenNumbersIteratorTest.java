@@ -57,5 +57,11 @@ public class EvenNumbersIteratorTest {
         assertThat(it.hasNext(), is(true));
         assertThat(it.next(), is(8));
     }
+
+    @Test
+    public void allNumbersAreNotEven() {
+        it = new EvenNumbersIterator(new int[]{1, 3, 5, 7});
+        assertThat(it.hasNext(), is(false));
+    }
 }
 
