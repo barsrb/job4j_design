@@ -9,7 +9,6 @@ import java.util.Set;
 import static org.hamcrest.CoreMatchers.hasItem;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.containsInAnyOrder;
-import static org.hamcrest.Matchers.hasItemInArray;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertNull;
 
@@ -100,13 +99,13 @@ public class SimpleMapTest {
 
     @Test
     public void addAndGetIterator() {
-        SimpleMap<Object, Object> map = new SimpleMap<>();
+        SimpleMap<Integer, String> map = new SimpleMap<>();
         map.put(1, "test1");
         map.put(2, "test2");
         map.put(3, "test3");
-        assertThat(map, containsInAnyOrder(new SimpleMap.Entry<Object, Object>(1, "test1"),
-                new SimpleMap.Entry<Object, Object>(2, "test2"),
-                new SimpleMap.Entry<Object, Object>(3, "test3")));
+        assertThat(map, containsInAnyOrder(new SimpleMap.Entry<>(1, "test1"),
+                new SimpleMap.Entry<>(2, "test2"),
+                new SimpleMap.Entry<>(3, "test3")));
     }
 
     @Test

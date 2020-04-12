@@ -114,8 +114,9 @@ public class SimpleMap<K, V> implements Iterable<SimpleMap.Entry<K, V>> {
 
         @Override
         public int hashCode() {
-            int result = key != null ? key.hashCode() : 0;
-            result = 31 * result + (value != null ? value.hashCode() : 0);
+            int result = 17;
+            result = result * 37 + key.hashCode();
+            result = result * 37 + value.hashCode();
             return result;
         }
 
