@@ -4,28 +4,29 @@ import java.util.NoSuchElementException;
 
 public class SimpleQueue<T> {
 
-    private SimpleStack<T> stack = new SimpleStack<>();
-    private int size = 0;
+    private SimpleStack<T> in = new SimpleStack<>();
+    private SimpleStack<T> out = new SimpleStack<>();
 
     public T poll() {
-        if (size == 0) {
+        if (out.size() == 0) {
+            switchStacks(in, out);
+        }
+        if (out.size() == 0) {
             throw new NoSuchElementException();
         }
-        SimpleStack<T> tempStack = new SimpleStack<>();
-        T result;
-        for (int i = 0; i < size - 1; i++) {
-            tempStack.push(stack.poll());
-        }
-        result = stack.poll();
-        for (int i = 0; i < size - 1; i++) {
-            stack.push(tempStack.poll());
-        }
-        size--;
-        return result;
+        return out.poll();
     }
 
     public void push(T value) {
-        stack.push(value);
-        size++;
+        if (in.size() == 0) {
+            switchStacks(out, in);
+        }
+        in.push(value);
+    }
+
+    private void switchStacks(SimpleStack<T> from, SimpleStack<T> to) {
+        for (int i = 0; i < in.size() + out.size(); i++) {
+            to.push(from.poll());
+        }
     }
 }
