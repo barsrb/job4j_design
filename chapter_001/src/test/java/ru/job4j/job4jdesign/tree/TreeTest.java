@@ -30,4 +30,48 @@ public class TreeTest {
                 is(false)
         );
     }
+
+    @Test
+    public void whenTreeIsBinary() {
+        Tree<Integer> tree = new Tree<>(4);
+        tree.add(4, 2);
+        tree.add(2, 1);
+        tree.add(2, 3);
+        tree.add(4, 6);
+        tree.add(6, 7);
+        tree.add(6, 5);
+        assertThat(
+                tree.isBinary(),
+                is(true)
+        );
+    }
+
+    @Test
+    public void whenTreeIsBinaryWithOneElementInBranch() {
+        Tree<Integer> tree = new Tree<>(4);
+        tree.add(4, 2);
+        tree.add(2, 1);
+        tree.add(4, 6);
+        tree.add(6, 7);
+        assertThat(
+                tree.isBinary(),
+                is(true)
+        );
+    }
+
+    @Test
+    public void whenTreeIsNotBinary() {
+        Tree<Integer> tree = new Tree<>(4);
+        tree.add(4, 2);
+        tree.add(2, 1);
+        tree.add(2, 3);
+        tree.add(4, 6);
+        tree.add(6, 7);
+        tree.add(6, 5);
+        tree.add(6, 8);
+        assertThat(
+                tree.isBinary(),
+                is(false)
+        );
+    }
 }
