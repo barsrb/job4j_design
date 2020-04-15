@@ -18,28 +18,37 @@ public class SimpleMap<K, V> implements Iterable<SimpleMap.Entry<K, V>> {
     public V put(K key, V value) {
         int hash = Math.abs(key.hashCode() % fTABLESIZE);
         Node node = new Node(hash, key, value);
+        if (table[hash] == null) {
+            addInEmptyCell(hash, node);
+            return null;
+        } else {
+            return addInCell(hash, node);
+        }
+    }
+
+    private V addInCell(int hash, Node node) {
         Node nodeInBucket = (Node) table[hash];
         Node previousNodeInBucket = null;
-        if (nodeInBucket == null) {
-            table[hash] = node;
-            size++;
-            modCount++;
-        } else {
-            do {
-                if (nodeInBucket.key.equals(node.key) && nodeInBucket.key.hashCode() == node.key.hashCode()) {
-                    V result = nodeInBucket.value;
-                    nodeInBucket.value = node.value;
-                    modCount++;
-                    return result;
-                }
-                previousNodeInBucket = nodeInBucket;
-                nodeInBucket = nodeInBucket.next;
-            } while (nodeInBucket != null);
-            previousNodeInBucket.next = node;
-            modCount++;
-            size++;
-        }
+        do {
+            if (nodeInBucket.key.equals(node.key) && nodeInBucket.key.hashCode() == node.key.hashCode()) {
+                V result = nodeInBucket.value;
+                nodeInBucket.value = node.value;
+                modCount++;
+                return result;
+            }
+            previousNodeInBucket = nodeInBucket;
+            nodeInBucket = nodeInBucket.next;
+        } while (nodeInBucket != null);
+        previousNodeInBucket.next = node;
+        modCount++;
+        size++;
         return null;
+    }
+
+    private void addInEmptyCell(int hash, Node node) {
+        table[hash] = node;
+        size++;
+        modCount++;
     }
 
     public V get(K key) {
