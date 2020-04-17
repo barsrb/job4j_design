@@ -40,11 +40,10 @@ public class AnalyzeTest {
         ));
 
         Info info = Analyze.diff(previous, current);
-        Info expected = new Info();
-        expected.added = 3;
-        expected.deleted = 3;
-        expected.changed = 3;
-        assertThat(info, is(expected));
+
+        assertThat(info.added, is(3));
+        assertThat(info.changed, is(3));
+        assertThat(info.deleted, is(3));
     }
 
 
@@ -125,6 +124,30 @@ public class AnalyzeTest {
         expected.added = 0;
         expected.deleted = 0;
         expected.changed = 0;
+        assertThat(info, is(expected));
+    }
+
+    @Test
+    public void whenTwoEqualsOneDeletedOneAddedOneChanged() {
+        List<User> previous = new LinkedList<>(Arrays.asList(
+                new User(1, "a"),
+                new User(2, "b"),
+                new User(3, "c"),
+                new User(4, "d")
+        ));
+
+        List<User> current = new LinkedList<>(Arrays.asList(
+                new User(1, "a"),
+                new User(2, "x"),
+                new User(3, "c"),
+                new User(5, "y")
+        ));
+
+        Info info = Analyze.diff(previous, current);
+        Info expected = new Info();
+        expected.added = 1;
+        expected.deleted = 1;
+        expected.changed = 1;
         assertThat(info, is(expected));
     }
 

@@ -1,7 +1,6 @@
 package ru.job4j.job4jdesign;
 
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 public class Analyze {
 
@@ -9,32 +8,32 @@ public class Analyze {
     public static Info diff(List<User> previous, List<User> current) {
         Info info = new Info();
 
+        List<Integer> currentUnicalIDs = new ArrayList<>();
+
         Iterator<User> currentIterator = current.iterator();
         while (currentIterator.hasNext()) {
             User user = currentIterator.next();
             if (previous.contains(user)) {
                 currentIterator.remove();
                 previous.remove(user);
+            } else {
+                currentUnicalIDs.add(user.id);
             }
         }
 
-        currentIterator = current.iterator();
-        while (currentIterator.hasNext()) {
-            User currentUser = currentIterator.next();
-            Iterator<User> previousIterator = previous.iterator();
-            while (previousIterator.hasNext()) {
-                User previousUser = previousIterator.next();
-                if (currentUser.id == previousUser.id) {
-                    info.changed++;
-                    currentIterator.remove();
-                    previousIterator.remove();
-                    break;
-                }
+        Iterator<User> previousIterator = previous.iterator();
+        while (previousIterator.hasNext()) {
+            User previousUser = previousIterator.next();
+            if (currentUnicalIDs.contains(previousUser.id)) {
+                info.changed++;
+                currentUnicalIDs.remove(Integer.valueOf(previousUser.id));
+                previousIterator.remove();
             }
         }
+
 
         info.deleted = previous.size();
-        info.added = current.size();
+        info.added = currentUnicalIDs.size();
         return info;
     }
 
