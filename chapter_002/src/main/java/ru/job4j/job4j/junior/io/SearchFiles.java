@@ -12,11 +12,18 @@ import static java.nio.file.FileVisitResult.CONTINUE;
 
 public class SearchFiles implements FileVisitor<Path> {
 
-    private List<String> founded = new ArrayList<>();
-    private String filter;
+    private List<Path> founded = new ArrayList<>();
+    private String include;
+    private String exclude;
 
-    public SearchFiles(String filter) {
-        this.filter = filter;
+    public SearchFiles include(String include) {
+        this.include = include != null ? include.replace("*", "") : null;
+        return this;
+    }
+
+    public SearchFiles exclude(String exclude) {
+        this.exclude = exclude != null ? exclude.replace("*", "") : null;
+        return this;
     }
 
     @Override
@@ -26,8 +33,8 @@ public class SearchFiles implements FileVisitor<Path> {
 
     @Override
     public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException {
-        if (file.toString().endsWith(filter)) {
-            founded.add(file.toFile().getName());
+        if (fileCorrect(file)) {
+            founded.add(file);
         }
         return CONTINUE;
     }
@@ -42,7 +49,18 @@ public class SearchFiles implements FileVisitor<Path> {
         return CONTINUE;
     }
 
-    public List<String> getFounded() {
+    public List<Path> getFounded() {
         return founded;
     }
+
+    private boolean fileCorrect(Path file) {
+        if (include != null && !file.toString().endsWith(include)) {
+            return false;
+        }
+        if (exclude != null && file.toString().endsWith(exclude)) {
+            return false;
+        }
+        return true;
+    }
+
 }
