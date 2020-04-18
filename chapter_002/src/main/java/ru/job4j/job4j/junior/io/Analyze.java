@@ -1,9 +1,6 @@
 package ru.job4j.job4j.junior.io;
 
-import java.io.BufferedReader;
-import java.io.FileOutputStream;
-import java.io.FileReader;
-import java.io.PrintWriter;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.StringJoiner;
@@ -16,9 +13,8 @@ public class Analyze {
             List<String> unavailableList = new ArrayList<>();
 
             try (BufferedReader in = new BufferedReader(new FileReader(source))) {
-                List<String> lines = new ArrayList<>();
-                in.lines().forEach(lines::add);
-                for (String line : lines) {
+                String line;
+                while ((line = in.readLine()) != null) {
                     String[] log = line.split(" ");
                     if (log[0].equals("200")) {
                         if (!available) {
