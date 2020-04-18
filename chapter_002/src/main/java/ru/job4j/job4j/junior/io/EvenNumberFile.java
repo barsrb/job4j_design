@@ -5,7 +5,7 @@ import java.io.FileInputStream;
 public class EvenNumberFile {
     public static void main(String[] args) {
         StringBuilder text = new StringBuilder();
-        try (FileInputStream in = new FileInputStream("even.txt")) {
+        try (FileInputStream in = new FileInputStream("files/even.txt")) {
 
             int read;
             while ((read = in.read()) != -1) {
