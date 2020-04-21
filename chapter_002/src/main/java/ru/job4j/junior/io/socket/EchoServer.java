@@ -16,18 +16,34 @@ public class EchoServer {
                 try (OutputStream out = socket.getOutputStream();
                      BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()))) {
                     String str = in.readLine();
+                    String request;
+                    String response = "";
                     while (!str.isEmpty()) {
-                        if (str.equals("GET /?msg=Bye HTTP/1.1")) {
-                            serverActive = false;
+                        if (str.contains("GET /?msg=")) {
+                            request = parseRequest(str);
+                            if (request.equals("Exit")) {
+                                serverActive = false;
+                                response = "Bye";
+                            } else if (request.equals("Hello")) {
+                                response = "Hello, dear friend!";
+                            } else {
+                                response = request;
+                            }
                         }
                         System.out.println(str);
                         str = in.readLine();
                     }
-                    out.write("HTTP/1.1 200 OK\r\n\\".getBytes());
+                    out.write("HTTP/1.1 200 OK\r\n\r\n".getBytes());
+                    out.write(response.getBytes());
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private static String parseRequest(String str) {
+        String req = str.replace("GET /?msg=", "");
+        return req.substring(0, req.indexOf(" "));
     }
 }
