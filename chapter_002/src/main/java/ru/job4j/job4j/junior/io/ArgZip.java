@@ -12,7 +12,7 @@ public class ArgZip {
             valid = false;
             return;
         }
-        label:
+
         for (int i = 0; i < 6; i = i + 2) {
             switch (args[i]) {
                 case "-d":
@@ -26,7 +26,7 @@ public class ArgZip {
                     break;
                 default:
                     valid = false;
-                    break label;
+                    break;
             }
         }
 
