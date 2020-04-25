@@ -23,6 +23,10 @@ CREATE TABLE "users" (
     "role" integer references roles(id)
 );
 
+CREATE TABLE "task_category" (
+    "id" serial primary key,
+    "title" character varying(128)
+);
 
 CREATE TABLE "task_state" (
     "id" serial primary key,
@@ -34,6 +38,7 @@ CREATE TABLE "tasks" (
     "title" character varying(128),
     "text" text,
     "owner" integer references users(id),
+	"category" integer references task_category(id),
     "state" integer references task_state(id)
 );
 
