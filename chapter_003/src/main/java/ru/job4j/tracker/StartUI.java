@@ -1,7 +1,6 @@
 package ru.job4j.tracker;
 
 import ru.job4j.tracker.action.*;
-import ru.job4j.tracker.store.MemStore;
 import ru.job4j.tracker.store.SqlStore;
 import ru.job4j.tracker.store.Store;
 
@@ -25,7 +24,7 @@ public class StartUI {
 
     public static void main(String[] args) {
         Input input = new ValidateInput(new ConsoleInput());
-        Store tracker = new MemStore();
+        Store tracker = new SqlStore();
         UserAction[] actions = {
                 new CreateAction(),
                 new ShowAllAction(),
