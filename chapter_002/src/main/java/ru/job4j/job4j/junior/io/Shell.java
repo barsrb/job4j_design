@@ -1,44 +1,40 @@
 package ru.job4j.job4j.junior.io;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 class Shell {
 
-    private final ArrayList<String> currentPath;
+    private final LinkedList<String> path = new LinkedList<>();
 
-    public Shell() {
-        this.currentPath = new ArrayList<>();
-    }
+    Shell cd(String to) {
 
-    Shell cd(final String path) {
-
-        if (path.startsWith("/")) {
-            currentPath.clear();
+        if (to.startsWith("/")) {
+            path.clear();
         }
 
-        if (!path.contains("/")) {
-            if (path.equals("..")) {
-                currentPath.remove(currentPath.size() - 1);
+        if (!to.contains("/")) {
+            if (to.equals("..")) {
+                path.removeLast();
             } else {
-                currentPath.add(path);
+                path.add(to);
             }
             return this;
         }
 
-        String[] cd = path.split("/");
+        String[] cd = to.split("/");
         for (String dir : cd) {
             if (dir.equals(".") || dir.isBlank()) {
                 continue;
             } else if (dir.equals("..")) {
-                currentPath.remove(currentPath.size() - 1);
+                path.removeLast();
             } else {
-                currentPath.add(dir);
+                path.add(dir);
             }
         }
         return this;
     }
 
     public String path() {
-        return "/" + String.join("/", currentPath);
+        return "/" + String.join("/", path);
     }
 }
