@@ -15,6 +15,10 @@ public class SqlStore implements Store {
         this.init();
     }
 
+    public SqlStore(Connection cn) {
+        this.cn = cn;
+    }
+
     @Override
     public void init() {
         try (InputStream in = SqlStore.class.getClassLoader().getResourceAsStream("app.properties")) {
