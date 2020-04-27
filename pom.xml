@@ -38,6 +38,21 @@
         </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>travis</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <liquibase.url>jdbc:postgresql://localhost/tracker</liquibase.url>
+                <liquibase.username>postgres</liquibase.username>
+                <liquibase.password></liquibase.password>
+                <liquibase.driver>org.postgresql.Driver</liquibase.driver>
+            </properties>
+        </profile>
+    </profiles>
+
     <build>
         <plugins>
             <plugin>
