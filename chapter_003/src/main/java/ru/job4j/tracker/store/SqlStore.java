@@ -37,8 +37,7 @@ public class SqlStore implements Store {
 
     @Override
     public Item add(Item item) {
-        try {
-            PreparedStatement ps = cn.prepareStatement("INSERT INTO tracker (name) VALUES (?);", PreparedStatement.RETURN_GENERATED_KEYS);
+        try (PreparedStatement ps = cn.prepareStatement("INSERT INTO tracker (name) VALUES (?);", PreparedStatement.RETURN_GENERATED_KEYS)) {
             ps.setString(1, item.getName());
             ps.executeUpdate();
             ResultSet generatedKey = ps.getGeneratedKeys();
@@ -53,8 +52,7 @@ public class SqlStore implements Store {
 
     @Override
     public boolean replace(String id, Item item) {
-        try {
-            PreparedStatement ps = cn.prepareStatement("UPDATE tracker SET name = ? WHERE id::text = ?");
+        try (PreparedStatement ps = cn.prepareStatement("UPDATE tracker SET name = ? WHERE id::text = ?")) {
             ps.setString(1, item.getName());
             ps.setString(2, id);
             return ps.executeUpdate() == 1;
@@ -66,8 +64,7 @@ public class SqlStore implements Store {
 
     @Override
     public boolean delete(String id) {
-        try {
-            PreparedStatement ps = cn.prepareStatement("DELETE FROM tracker WHERE id::text = ?;");
+        try (PreparedStatement ps = cn.prepareStatement("DELETE FROM tracker WHERE id::text = ?;")) {
             ps.setString(1, id);
             return ps.executeUpdate() == 1;
         } catch (SQLException throwables) {
@@ -79,9 +76,10 @@ public class SqlStore implements Store {
     @Override
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
-        try {
-            Statement st = cn.createStatement();
-            ResultSet resultSet = st.executeQuery("SELECT * FROM tracker");
+        try (
+                Statement st = cn.createStatement();
+                ResultSet resultSet = st.executeQuery("SELECT * FROM tracker")
+                ) {
             while (resultSet.next()) {
                 Item item = new Item(resultSet.getString("name"));
                 item.setId(resultSet.getString("id"));
@@ -96,17 +94,19 @@ public class SqlStore implements Store {
     @Override
     public List<Item> findByName(String key) {
         List<Item> result = new ArrayList<>();
-        try {
-            PreparedStatement st = cn.prepareStatement("SELECT * FROM tracker WHERE name like ?");
-            st.setString(1, "%" + key + "%");
+        try (
+                PreparedStatement st = cn.prepareStatement("SELECT * FROM tracker WHERE name = ?")
+        ) {
+            st.setString(1, key);
             ResultSet resultSet = st.executeQuery();
             while (resultSet.next()) {
                 Item item = new Item(resultSet.getString("name"));
                 item.setId(resultSet.getString("id"));
                 result.add(item);
             }
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            resultSet.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return result;
     }
