@@ -4,36 +4,25 @@ import java.util.*;
 
 public class Analyze {
 
-
     public static Info diff(List<User> previous, List<User> current) {
         Info info = new Info();
 
-        List<Integer> currentUnicalIDs = new ArrayList<>();
+        Map<Integer, User> previousMap = new HashMap<>();
 
-        Iterator<User> currentIterator = current.iterator();
-        while (currentIterator.hasNext()) {
-            User user = currentIterator.next();
-            if (previous.contains(user)) {
-                currentIterator.remove();
-                previous.remove(user);
-            } else {
-                currentUnicalIDs.add(user.id);
-            }
+        for (User user : previous) {
+            previousMap.put(user.id, user);
         }
 
-        Iterator<User> previousIterator = previous.iterator();
-        while (previousIterator.hasNext()) {
-            User previousUser = previousIterator.next();
-            if (currentUnicalIDs.contains(previousUser.id)) {
+        for (User user : current) {
+            if (!previousMap.containsKey(user.id)) {
+                info.added++;
+            } else if (!previousMap.get(user.id).equals(user)) {
                 info.changed++;
-                currentUnicalIDs.remove(Integer.valueOf(previousUser.id));
-                previousIterator.remove();
             }
         }
 
+        info.deleted = previous.size() - (current.size() - info.added);
 
-        info.deleted = previous.size();
-        info.added = currentUnicalIDs.size();
         return info;
     }
 
@@ -102,6 +91,14 @@ public class Analyze {
             result = 31 * result + changed;
             result = 31 * result + deleted;
             return result;
+        }
+
+        @Override
+        public String toString() {
+            return "Info{"
+                    + "added=" + added
+                    + ", changed=" + changed
+                    + ", deleted=" + deleted + '}';
         }
     }
 
