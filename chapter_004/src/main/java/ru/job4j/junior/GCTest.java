@@ -51,7 +51,7 @@ public class GCTest {
         System.out.println("Done");
     }
 
-    private static void info(String s) {
+    public static void info(String s) {
         int mb = 1024 * 1024;
 
         Runtime runtime = Runtime.getRuntime();
