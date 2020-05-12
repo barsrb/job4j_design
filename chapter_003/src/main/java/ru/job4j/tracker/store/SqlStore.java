@@ -79,7 +79,7 @@ public class SqlStore implements Store {
         try (
                 Statement st = cn.createStatement();
                 ResultSet resultSet = st.executeQuery("SELECT * FROM tracker")
-                ) {
+        ) {
             while (resultSet.next()) {
                 Item item = new Item(resultSet.getString("name"));
                 item.setId(resultSet.getString("id"));
@@ -98,13 +98,13 @@ public class SqlStore implements Store {
                 PreparedStatement st = cn.prepareStatement("SELECT * FROM tracker WHERE name = ?")
         ) {
             st.setString(1, key);
-            ResultSet resultSet = st.executeQuery();
-            while (resultSet.next()) {
-                Item item = new Item(resultSet.getString("name"));
-                item.setId(resultSet.getString("id"));
-                result.add(item);
+            try (ResultSet resultSet = st.executeQuery()) {
+                while (resultSet.next()) {
+                    Item item = new Item(resultSet.getString("name"));
+                    item.setId(resultSet.getString("id"));
+                    result.add(item);
+                }
             }
-            resultSet.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,11 +116,12 @@ public class SqlStore implements Store {
         try {
             PreparedStatement st = cn.prepareStatement("SELECT * FROM tracker WHERE id::text = ?");
             st.setString(1, id);
-            ResultSet resultSet = st.executeQuery();
-            if (resultSet.next()) {
-                Item item = new Item(resultSet.getString("name"));
-                item.setId(resultSet.getString("id"));
-                return item;
+            try (ResultSet resultSet = st.executeQuery()) {
+                if (resultSet.next()) {
+                    Item item = new Item(resultSet.getString("name"));
+                    item.setId(resultSet.getString("id"));
+                    return item;
+                }
             }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
