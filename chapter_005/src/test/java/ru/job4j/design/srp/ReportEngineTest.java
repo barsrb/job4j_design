@@ -77,4 +77,40 @@ public class ReportEngineTest {
                 + System.lineSeparator();
         assertThat(engine.generate(em -> true), is(expect));
     }
+
+    @Test
+    public void whenMXLGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker1 = new Employee("Ivan", now, now, 200);
+        Employee worker2 = new Employee("Sergey", now, now, 300);
+        Employee worker3 = new Employee("Alex", now, now, 100);
+        store.add(worker1);
+        store.add(worker2);
+        store.add(worker3);
+        ReportEngine engine = new XMLReport(store);
+        String expect = "<?xml version=\"1.0\"?>"
+                + "<employees>"
+                + "<employee><name>" + worker1.getName() + "</name><hired>" + worker1.getHired() + "</hired><fired>" + worker1.getFired() + "</fired><salary>" + worker1.getSalary() + "</salary></employee>"
+                + "<employee><name>" + worker2.getName() + "</name><hired>" + worker2.getHired() + "</hired><fired>" + worker2.getFired() + "</fired><salary>" + worker2.getSalary() + "</salary></employee>"
+                + "<employee><name>" + worker3.getName() + "</name><hired>" + worker3.getHired() + "</hired><fired>" + worker3.getFired() + "</fired><salary>" + worker3.getSalary() + "</salary></employee>"
+                + "</employees>";
+        assertThat(engine.generate(em -> true), is(expect));
+    }
+
+    @Test
+    public void whenJSONGenerated() {
+        MemStore store = new MemStore();
+        Calendar now = Calendar.getInstance();
+        Employee worker1 = new Employee("Ivan", now, now, 200);
+        Employee worker2 = new Employee("Sergey", now, now, 300);
+        store.add(worker1);
+        store.add(worker2);
+        ReportEngine engine = new JSONReport(store);
+        String expect = "{\"employees\": ["
+                + "{\"name\": \"Ivan\",\"hired\": \"" + worker1.getHired() + "\",\"fired\": \"" + worker1.getFired() + "\",\"salary\": 200.0},"
+                + "{\"name\": \"Sergey\",\"hired\": \"" + worker2.getHired() + "\",\"fired\": \"" + worker2.getFired() + "\",\"salary\": 300.0}"
+                + "]}";
+        assertThat(engine.generate(em -> true), is(expect));
+    }
 }
