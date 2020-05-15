@@ -58,4 +58,12 @@ public class GeneratorTest {
         assertThat(result, is(expected));
     }
 
+    @Test (expected = IllegalArgumentException.class)
+    public void testWhenMissedArg() {
+        String pattern = "Hello, ${single}!";
+        Map<String, String> args = Map.of("missed", "Single arg");
+        String result = new SimpleGenerator().produce(pattern, args);
+    }
+
+
 }
