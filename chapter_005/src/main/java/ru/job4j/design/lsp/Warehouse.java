@@ -1,12 +1,40 @@
 package ru.job4j.design.lsp;
 
-public class Warehouse extends Store {
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class Warehouse implements Store, StoreExporter {
+    private final List<Food> foods = new ArrayList<>();
+    private final Predicate<Food> filter;
+
+    public Warehouse(Predicate<Food> filter) {
+        this.filter = filter;
+    }
+
     @Override
-    void showFoods() {
-        System.out.println("-- In warehouse: --");
+    public String exportStore() {
+        StringBuilder result = new StringBuilder();
+        result.append("-- In warehouse: --").append(System.lineSeparator());
         for (Food food : getFood()) {
-                System.out.printf("Name: %s - %.2f$. Expectation: %d%%%n", food.getName(), food.getPrice(), food.getExpirationPercent());
+                result.append(String.format("Name: %s - %.2f$. Expectation: %d%%%n", food.getName(), food.getPrice(), food.getExpirationPercent()));
+                result.append(System.lineSeparator());
         }
-        System.out.println();
+        return result.toString();
+    }
+
+    @Override
+    public boolean accept(Food food) {
+        return filter.test(food);
+    }
+
+    @Override
+    public void add(Food food) {
+        foods.add(food);
+    }
+
+    @Override
+    public List<Food> getFood() {
+        return foods;
     }
 }

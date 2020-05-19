@@ -45,8 +45,4 @@ public abstract class Food {
         }
         return 100 - (int) (((expired * 100) / fullTime) % 100);
     }
-
-    final void moveFood(Store store) {
-        store.move(this);
-    }
 }

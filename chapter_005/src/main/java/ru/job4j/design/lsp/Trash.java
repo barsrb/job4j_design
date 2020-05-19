@@ -1,18 +1,41 @@
 package ru.job4j.design.lsp;
 
-public class Trash extends Store {
-    @Override
-    void showFoods() {
-        System.out.println("-- In trash: --");
-        for (Food food : getFood()) {
-            System.out.printf("Name: %s%n", food.getName());
-        }
-        System.out.println();
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
+
+public class Trash implements Store, StoreExporter {
+    private final List<Food> foods = new ArrayList<>();
+    private final Predicate<Food> filter;
+
+    public Trash(Predicate<Food> filter) {
+        this.filter = filter;
     }
 
     @Override
-    public void move(Food food) {
+    public boolean accept(Food food) {
+        return filter.test(food);
+    }
+
+    @Override
+    public void add(Food food) {
         food.setPrice(0.0);
-        super.move(food);
+        foods.add(food);
+    }
+
+    @Override
+    public List<Food> getFood() {
+        return foods;
+    }
+
+    @Override
+    public String exportStore() {
+        StringBuilder result = new StringBuilder();
+        result.append("-- In trash: --").append(System.lineSeparator());
+        for (Food food : getFood()) {
+            result.append(String.format("Name: %s%n", food.getName()));
+            result.append(System.lineSeparator());
+        }
+        return result.toString();
     }
 }
