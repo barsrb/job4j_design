@@ -38,4 +38,9 @@ public class Trash implements Store, StoreExporter {
         }
         return result.toString();
     }
+
+    @Override
+    public void clear() {
+        foods.clear();
+    }
 }

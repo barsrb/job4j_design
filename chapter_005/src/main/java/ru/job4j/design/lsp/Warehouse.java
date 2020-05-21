@@ -37,4 +37,9 @@ public class Warehouse implements Store, StoreExporter {
     public List<Food> getFood() {
         return foods;
     }
+
+    @Override
+    public void clear() {
+        foods.clear();
+    }
 }

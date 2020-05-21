@@ -124,4 +124,52 @@ public class ControlQualityTest {
         controlQuality.checkFood(foods);
         assertThat(milk4.getPrice(), is(0.0));
     }
+
+    @Test
+    public void nothingChangesAfterResort() {
+        ControlQuality controlQuality = new ControlQuality(stores);
+        controlQuality.checkFood(foods);
+        controlQuality.resort();
+        List<Food> resultWarehouse = warehouse.getFood();
+        List<Food> expectedWarehouse = List.of(milk3, meat1);
+        assertThat(resultWarehouse, is(expectedWarehouse));
+        List<Food> resultShop = shop.getFood();
+        List<Food> expectedShop = List.of(milk1, milk2, meat2);
+        assertThat(resultShop, is(expectedShop));
+        List<Food> resultTrash = trash.getFood();
+        List<Food> expectedTrash = List.of(milk4);
+        assertThat(resultTrash, is(expectedTrash));
+    }
+
+    @Test
+    public void changesIfStoresAfterChangedDatesAndResort() {
+        ControlQuality controlQuality = new ControlQuality(stores);
+        controlQuality.checkFood(foods);
+
+        Calendar create = Calendar.getInstance();
+        create.add(Calendar.DAY_OF_MONTH, -20);
+        Calendar expected = Calendar.getInstance();
+        expected.add(Calendar.DAY_OF_MONTH, +10);
+        milk4.setCreateDate(create);
+        milk4.setExpiredDate(expected);
+
+        create = Calendar.getInstance();
+        create.add(Calendar.DAY_OF_MONTH, -10);
+        expected = Calendar.getInstance();
+        expected.add(Calendar.DAY_OF_MONTH, +90);
+        meat2.setCreateDate(create);
+        meat2.setExpiredDate(expected);
+
+        controlQuality.resort();
+
+        List<Food> resultWarehouse = warehouse.getFood();
+        List<Food> expectedWarehouse = List.of(milk3, meat1, meat2);
+        assertThat(resultWarehouse, is(expectedWarehouse));
+        List<Food> resultShop = shop.getFood();
+        List<Food> expectedShop = List.of(milk1, milk2, milk4);
+        assertThat(resultShop, is(expectedShop));
+        List<Food> resultTrash = trash.getFood();
+        List<Food> expectedTrash = List.of();
+        assertThat(resultTrash, is(expectedTrash));
+    }
 }

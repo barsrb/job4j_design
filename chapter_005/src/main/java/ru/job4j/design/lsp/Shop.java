@@ -31,6 +31,11 @@ public class Shop implements Store, StoreExporter {
     }
 
     @Override
+    public void clear() {
+        foods.clear();
+    }
+
+    @Override
     public String exportStore() {
         StringBuilder result = new StringBuilder();
         result.append("-- In store: --").append(System.lineSeparator());
