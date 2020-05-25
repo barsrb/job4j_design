@@ -149,4 +149,21 @@ public class SimpleParkingTest {
         assertFalse(simpleParking.park(new Truck("Truck1", 4)));
     }
 
+    @Test
+    public void whenCanParkCar() {
+        simpleParking.park(new Car("Car1"));
+        simpleParking.park(new Car("Car2"));
+        simpleParking.park(new Car("Car3"));
+        simpleParking.park(new Car("Car4"));
+        simpleParking.park(new Car("Car5"));
+        simpleParking.park(new Car("Car6"));
+        simpleParking.park(new Car("Car7"));
+        simpleParking.park(new Car("Car8"));
+        simpleParking.park(new Car("Car9"));
+        simpleParking.park(new Car("Car10"));
+        simpleParking.leave("Car3");
+        assertThat(simpleParking.getFreePlaces(), is(1));
+        assertTrue(simpleParking.park(new Car("Car11")));
+    }
+
 }
